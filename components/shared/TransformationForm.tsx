@@ -104,7 +104,7 @@ const TransformationForm = ({ action, data = null, userId, type, creditBalance, 
           if(newImage) {
             form.reset()
             setImage(data)
-            router.push(`/transformations/${newImage._id}`)
+            router.push(`/transformations/${newImage?._id}`)
           }
         } catch (error) {
           console.log(error);

@@ -28,7 +28,7 @@ export async function addImage({ image, userId, path }: AddImageParams) {
 
     const newImage = await Image.create({
       ...image,
-      author: author._id,
+      author: author?._id,
     })
 
     revalidatePath(path);
@@ -46,12 +46,12 @@ export async function updateImage({ image, userId, path }: UpdateImageParams) {
 
     const imageToUpdate = await Image.findById(image._id);
 
-    if (!imageToUpdate || imageToUpdate.author.toHexString() !== userId) {
+    if (!imageToUpdate || imageToUpdate?.author?.toHexString() !== userId) {
       throw new Error("Unauthorized or image not found");
     }
 
     const updatedImage = await Image.findByIdAndUpdate(
-      imageToUpdate._id,
+      imageToUpdate?._id,
       image,
       { new: true }
     )
@@ -118,7 +118,7 @@ export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
       .expression(expression)
       .execute();
 
-    const resourceIds = resources.map((resource: any) => resource.public_id);
+    const resourceIds = resources.map((resource: any) => resource?.public_id);
 
     let query = {};
 
